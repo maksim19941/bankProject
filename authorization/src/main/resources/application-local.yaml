@@ -14,13 +14,16 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: user
+    url: jdbc:postgresql://localhost:5433/postgres
+    username: postgres
     password: password
   liquibase:
-    default-schema: authorization
+    default-schema: auth
     change-log: db/changelog/db.changelog-master.yaml
     enabled: true
     drop-first: false
   application:
     name: authorization-app
+jwt:
+  secret: 0000000001111111111111112222222222222
+  lifetime: 1h
