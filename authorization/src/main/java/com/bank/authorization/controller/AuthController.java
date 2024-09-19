@@ -5,12 +5,9 @@ import com.bank.authorization.entity.User;
 import com.bank.authorization.service.AuthService;
 import com.bank.authorization.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +30,7 @@ public class AuthController {
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         return authService.createAuthToken(authenticationRequestDto);
     }
-    @Secured("ROLE_USER")
+    @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
         return new ResponseEntity<>(userService.findByProfileId(Long.valueOf(principal.getName())), HttpStatus.OK);
@@ -58,7 +55,7 @@ public class AuthController {
     @Secured("ROLE_ADMIN")
     @PutMapping("/users")
     public ResponseEntity editUser(@RequestBody User user) {
-        userService.saveUser(user);
+        userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @Secured("ROLE_ADMIN")

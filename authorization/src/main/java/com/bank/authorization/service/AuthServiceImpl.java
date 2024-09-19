@@ -11,9 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -24,7 +21,6 @@ public class AuthServiceImpl implements AuthService{
     private final UserService userService;
     private final JwtTokenUtil jwtTokenUtil;
     private final AuthenticationManager authenticationManager;
-    private final PasswordEncoder passwordEncoder;
 
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         try {
@@ -36,7 +32,7 @@ public class AuthServiceImpl implements AuthService{
         }
         User user = userService.findByProfileId(Long.valueOf(authenticationRequestDto.getUsername()));
         String token = jwtTokenUtil.generateToken(user);
-        log.info("Пользователь %s успешно прошел аутентификацию", user.getProfile_id());
+        log.info("Пользователь {} успешно прошел аутентификацию", user.getProfile_id());
         return ResponseEntity.ok(new AuthenticationResponseDto(token));
     }
 }

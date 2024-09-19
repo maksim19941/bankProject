@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -36,9 +37,9 @@ public class AuditServiceImpl implements AuditService {
     }
 
     @Override
-    public Audit findByEntity_json(String json) {
+    public Optional<Audit> findAuditByJson(String json) {
         try {
-            return auditRepository.findByNew_entity_json(json);
+            return auditRepository.findFirstByEntityJsonStartingWithOrderByModifiedAt(json);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
