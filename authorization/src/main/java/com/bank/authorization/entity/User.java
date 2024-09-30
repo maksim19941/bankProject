@@ -1,5 +1,6 @@
 package com.bank.authorization.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -28,10 +29,11 @@ public class User implements UserDetails {
     @Column(length = 40, nullable = false)
     private String role;
     @Column(nullable = false)
-    private Long profile_id;
+    private Long profileId;
     @Column(unique = true, length = 400, nullable = false)
     private String password;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         ArrayList<GrantedAuthority> authorities = new ArrayList<>();
@@ -41,7 +43,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return profile_id.toString();
+        return profileId.toString();
     }
 
     @Override

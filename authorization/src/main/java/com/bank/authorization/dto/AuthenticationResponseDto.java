@@ -1,8 +1,10 @@
 package com.bank.authorization.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AuthenticationResponseDto {
     private String token;
     public AuthenticationResponseDto(String token) {

@@ -4,14 +4,12 @@ import com.bank.authorization.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import liquibase.pro.packaged.S;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -22,7 +20,7 @@ public class JwtTokenUtil {
     private Duration lifetime;
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("profile_id", user.getProfile_id());
+        claims.put("profileId", user.getProfileId());
         claims.put("role", user.getRole());
 
         return Jwts.builder()

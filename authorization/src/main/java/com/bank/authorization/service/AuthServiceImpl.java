@@ -32,7 +32,7 @@ public class AuthServiceImpl implements AuthService{
         }
         User user = userService.findByProfileId(Long.valueOf(authenticationRequestDto.getUsername()));
         String token = jwtTokenUtil.generateToken(user);
-        log.info("Пользователь {} успешно прошел аутентификацию", user.getProfile_id());
+        log.info("Пользователь {} успешно прошел аутентификацию", user.getProfileId());
         return ResponseEntity.ok(new AuthenticationResponseDto(token));
     }
 }

@@ -11,7 +11,11 @@ management:
   endpoints:
     web:
       exposure:
-        include: '*'
+        include: health, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5433/postgres

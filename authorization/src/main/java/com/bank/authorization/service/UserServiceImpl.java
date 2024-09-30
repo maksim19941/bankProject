@@ -84,7 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByProfileId(Long id) {
         try {
-            return userRepository.findByProfile_id(id);
+            return userRepository.findByProfileId(id);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw e;
