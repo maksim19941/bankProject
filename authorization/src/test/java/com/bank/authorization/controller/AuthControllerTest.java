@@ -1,9 +1,12 @@
 package com.bank.authorization.controller;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.mockito.Mockito.*;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import com.bank.authorization.config.SecurityConfig;
 import com.bank.authorization.dto.AuthenticationRequestDto;
 import com.bank.authorization.entity.User;
@@ -14,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -64,7 +68,7 @@ class AuthControllerTest {
         requestDto.setUsername("123");
         requestDto.setPassword("password");
 
-        when(authService.createAuthToken(any(AuthenticationRequestDto.class)))
+        Mockito.when(authService.createAuthToken(Mockito.any(AuthenticationRequestDto.class)))
                 .thenReturn(ResponseEntity.ok().build());
 
         mockMvc.perform(post("/login")
@@ -76,7 +80,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "123", roles = {"USER"})
     void getCurrentUser() throws Exception {
-        when(userService.findByProfileId(123L)).thenReturn(user);
+        Mockito.when(userService.findByProfileId(123L)).thenReturn(user);
 
         mockMvc.perform(get("/user"))
                 .andExpect(status().isOk())
@@ -87,7 +91,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void addUser() throws Exception {
-        when(userService.saveUser(user)).thenReturn(user);
+        Mockito.when(userService.saveUser(user)).thenReturn(user);
         mockMvc.perform(post("/users")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(user)))
@@ -97,7 +101,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAllUsers() throws Exception {
-        when(userService.getAllUsers()).thenReturn(Collections.singletonList(user));
+        Mockito.when(userService.getAllUsers()).thenReturn(Collections.singletonList(user));
 
         mockMvc.perform(get("/users"))
                 .andExpect(status().isOk())
@@ -107,7 +111,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getUser() throws Exception {
-        when(userService.getUser(1L)).thenReturn(user);
+        Mockito.when(userService.getUser(1L)).thenReturn(user);
 
         mockMvc.perform(get("/users/1"))
                 .andExpect(status().isOk())
@@ -117,7 +121,7 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void editUser() throws Exception {
-        when(userService.updateUser(user)).thenReturn(user);
+        Mockito.when(userService.updateUser(user)).thenReturn(user);
         mockMvc.perform(put("/users")
                         .contentType("application/json")
                         .content(objectMapper.writeValueAsString(user)))
@@ -127,8 +131,8 @@ class AuthControllerTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void deleteUser() throws Exception {
-        when(userService.getUser(1L)).thenReturn(user);
-        doNothing().when(userService).deleteUser(user);
+        Mockito.when(userService.getUser(1L)).thenReturn(user);
+        Mockito.doNothing().when(userService).deleteUser(user);
 
         mockMvc.perform(delete("/users/1"))
                 .andExpect(status().isOk());
