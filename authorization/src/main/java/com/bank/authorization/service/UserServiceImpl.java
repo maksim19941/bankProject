@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
             log.error(e.getMessage());
             throw e;
         }
-
     }
 
     @Override

@@ -26,10 +26,12 @@ import java.util.List;
 public class AuthController {
     private final AuthService authService;
     private final UserService userService;
+
     @PostMapping("/login")
     public ResponseEntity<?> createAuthToken(@RequestBody AuthenticationRequestDto authenticationRequestDto) {
         return authService.createAuthToken(authenticationRequestDto);
     }
+
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/user")
     public ResponseEntity<User> getCurrentUser(Principal principal) {
@@ -42,22 +44,26 @@ public class AuthController {
         userService.saveUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @Secured("ROLE_ADMIN")
     @GetMapping("/users")
     public ResponseEntity<List<User>> getAllUsers() {
         return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
     }
+
     @Secured("ROLE_ADMIN")
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         return new ResponseEntity<>(userService.getUser(id), HttpStatus.OK);
     }
+
     @Secured("ROLE_ADMIN")
     @PutMapping("/users")
     public ResponseEntity editUser(@RequestBody User user) {
         userService.updateUser(user);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @Secured("ROLE_ADMIN")
     @DeleteMapping("/users/{id}")
     public ResponseEntity deleteUser(@PathVariable Long id) {

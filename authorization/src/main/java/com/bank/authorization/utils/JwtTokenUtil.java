@@ -18,6 +18,7 @@ public class JwtTokenUtil {
     private String secret;
     @Value("${jwt.lifetime}")
     private Duration lifetime;
+
     public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("profileId", user.getProfileId());

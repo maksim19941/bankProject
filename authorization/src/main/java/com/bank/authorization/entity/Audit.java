@@ -21,22 +21,22 @@ public class Audit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Size(max = 40)
     @NotNull
-    @Column(name = "entity_type", nullable = false, length = 40)
+    @Column(name = "entity_type")
     private String entityType;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "operation_type", nullable = false)
+    @Column(name = "operation_type")
     private String operationType;
 
     @Size(max = 255)
     @NotNull
-    @Column(name = "created_by", nullable = false)
+    @Column(name = "created_by")
     private String createdBy;
 
     @Size(max = 255)
@@ -44,7 +44,7 @@ public class Audit {
     private String modifiedBy;
 
     @NotNull
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private OffsetDateTime createdAt;
 
     @Column(name = "modified_at")
@@ -54,7 +54,7 @@ public class Audit {
     private String newEntityJson;
 
     @NotNull
-    @Column(name = "entity_json", nullable = false)
+    @Column(name = "entity_json")
     private String entityJson;
 }
 

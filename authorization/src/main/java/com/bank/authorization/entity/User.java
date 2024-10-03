@@ -26,10 +26,13 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(length = 40, nullable = false)
     private String role;
+
     @Column(nullable = false)
     private Long profileId;
+    
     @Column(unique = true, length = 400, nullable = false)
     private String password;
 
