@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -25,15 +26,18 @@ import java.util.Collection;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
-    @Column(length = 40, nullable = false)
+    @Size(max = 40)
+    @Column(name = "role")
     private String role;
 
-    @Column(nullable = false)
+    @Column(name = "profile_id")
     private Long profileId;
-    
-    @Column(unique = true, length = 400, nullable = false)
+
+    @Size(max = 400)
+    @Column(name = "password", unique = true)
     private String password;
 
     @JsonIgnore
