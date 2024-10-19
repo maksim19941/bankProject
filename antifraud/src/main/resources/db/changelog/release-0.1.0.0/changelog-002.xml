@@ -35,10 +35,6 @@
             <column autoIncrement="true" name="id" remarks="технический идентификатор" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="suspicious_account_transfers_pkey"/>
             </column>
-            <column name="account_transfer_id" remarks="технический идентификатор на перевод по номеру cчёта"
-                    type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
             <column name="is_blocked" remarks="заблокировано ли" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
@@ -55,10 +51,6 @@
         <createTable remarks="подозрительные переводы по номеру карты" tableName="suspicious_card_transfer">
             <column autoIncrement="true" name="id" remarks="технический идентификатор" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="suspicious_card_transfer_pkey"/>
-            </column>
-            <column name="card_transfer_id" remarks="технический идентификатор на перевод по номеру телефона"
-                    type="BIGINT">
-                <constraints nullable="false"/>
             </column>
             <column name="is_blocked" remarks="заблокировано ли" type="BOOLEAN">
                 <constraints nullable="false"/>
@@ -77,10 +69,6 @@
             <column autoIncrement="true" name="id" remarks="технический идентификатор" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="suspicious_phone_transfers_pkey"/>
             </column>
-            <column name="phone_transfer_id" remarks="технический идентификатор на перевод по номеру телефона"
-                    type="BIGINT">
-                <constraints nullable="false"/>
-            </column>
             <column name="is_blocked" remarks="заблокировано ли" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
@@ -94,15 +82,12 @@
         </createTable>
     </changeSet>
     <changeSet author="Рустам" id="1672954987388-5">
-        <addUniqueConstraint columnNames="account_transfer_id" constraintName="suspicious_account_transfers_id_key"
-                             tableName="suspicious_account_transfers"/>
+        <addUniqueConstraint columnNames="id" constraintName="suspicious_account_transfers_key" tableName="suspicious_account_transfers"/>
     </changeSet>
     <changeSet author="Рустам" id="1672954987388-6">
-        <addUniqueConstraint columnNames="card_transfer_id" constraintName="suspicious_card_transfer_id_key"
-                             tableName="suspicious_card_transfer"/>
+        <addUniqueConstraint columnNames="id" constraintName="suspicious_card_transfer_key" tableName="suspicious_card_transfer"/>
     </changeSet>
     <changeSet author="Рустам" id="1672954987388-7">
-        <addUniqueConstraint columnNames="phone_transfer_id" constraintName="suspicious_phone_transfers_id_key"
-                             tableName="suspicious_phone_transfers"/>
+        <addUniqueConstraint columnNames="id" constraintName="suspicious_phone_transfers_key" tableName="suspicious_phone_transfers"/>
     </changeSet>
 </databaseChangeLog>
