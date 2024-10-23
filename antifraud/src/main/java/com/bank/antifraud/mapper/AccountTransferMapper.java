@@ -16,6 +16,7 @@ public interface AccountTransferMapper {
     AccountTransferMapper INSTANCE = Mappers.getMapper(AccountTransferMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "account_transfer_id", source = "accountTransferDTO.account_transfer_id")
     SuspiciousAccountTransfers toEntity(AccountTransfersDTO accountTransferDTO);
 
     AccountTransfersDTO toDTO(SuspiciousAccountTransfers accountTransferEntity);
@@ -24,5 +25,4 @@ public interface AccountTransferMapper {
 
     void updateEntityFromDTO(AccountTransfersDTO accountTransferDTO,
                              @MappingTarget SuspiciousAccountTransfers accountTransferEntity);
-
 }

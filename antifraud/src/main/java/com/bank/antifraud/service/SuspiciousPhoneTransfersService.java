@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface SuspiciousPhoneTransfersService {
 
-
     List<PhoneTransfersDTO> getListPhoneTransfers();
 
     @Transactional
@@ -19,5 +18,4 @@ public interface SuspiciousPhoneTransfersService {
     void delete(Long id);
 
     PhoneTransfersDTO getPhoneTransfer(Long id);
-
 }

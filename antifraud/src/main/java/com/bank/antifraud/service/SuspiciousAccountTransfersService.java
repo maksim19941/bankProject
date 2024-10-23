@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface SuspiciousAccountTransfersService {
-
     @Transactional
     List<AccountTransfersDTO> getListSAccountTransfers();
 
@@ -16,8 +15,7 @@ public interface SuspiciousAccountTransfersService {
     @Transactional
     AccountTransfersDTO updateAccount(AccountTransfersDTO updateTrDTO, Long id);
 
-    void delete(Long id);
+    void deleteAccount(Long id);
 
     AccountTransfersDTO getAccountTransfer(Long id);
-
 }

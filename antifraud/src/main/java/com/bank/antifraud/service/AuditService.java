@@ -3,14 +3,13 @@ package com.bank.antifraud.service;
 import com.bank.antifraud.model.AuditModel;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AuditService {
 
 
-    void createAudit(AuditModel audit);
+    void createAudit(AuditModel newAudit);
 
-    Optional<AuditModel> findFirstByEntityJsonStartingWith(String json);
+    void updateAudit(AuditModel updateAudit);
 
     AuditModel findById(Long id);
 

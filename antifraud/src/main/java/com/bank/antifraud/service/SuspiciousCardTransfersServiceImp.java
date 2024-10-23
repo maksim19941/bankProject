@@ -29,7 +29,6 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
     public List<CardTransfersDTO> getListSCardTransfers() {
 
         log.info("Getting all card transfers");
-
         List<SuspiciousCardTransfers> accountTransfersListEntity = sctRepository.findAll();
 
         return cardTransferMapper.toDTOList(accountTransfersListEntity);
@@ -41,13 +40,10 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
     public CardTransfersDTO saveCard(CardTransfersDTO newCardTransfers) {
 
         log.info("Getting account transfer by id: {}", newCardTransfers);
-
         SuspiciousCardTransfers cardTransfers = cardTransferMapper.toEntity(newCardTransfers);
         SuspiciousCardTransfers accountSave = sctRepository.save(cardTransfers);
 
-
         return cardTransferMapper.toDTO(accountSave);
-
 
     }
 
@@ -56,14 +52,10 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
     public CardTransfersDTO updateCard(CardTransfersDTO updateTrDTO, Long id) {
 
         log.info("Creating account transfer: {}", updateTrDTO);
-
         SuspiciousCardTransfers accountTransfers = sctRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found",
                         "CardTransferMapperServiceImp.update"));
-
-
         cardTransferMapper.updateEntityFromDTO(updateTrDTO, accountTransfers);
-
         SuspiciousCardTransfers updateAccount = sctRepository.save(accountTransfers);
 
         return cardTransferMapper.toDTO(updateAccount);
@@ -72,9 +64,7 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
     @Override
     public void delete(Long id) {
 
-
         log.info("Deleting account transfer: {}", id);
-
         try {
             sctRepository.deleteById(id);
         } catch (EntityNotFoundException ex) {
@@ -83,14 +73,12 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
                     "An object with this ID was not found for deletion, ID: " + id,
                     "AccountTransferServiceImpl.deleteAccountTransfer");
         }
-
     }
 
     @Override
     public CardTransfersDTO getCardTransfer(Long id) {
 
         log.info("Getting account transfer by id: {}", id);
-
         SuspiciousCardTransfers accountTransferEntity = sctRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("An object with this ID was not found, ID: " + id,
@@ -98,6 +86,5 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
 
         return cardTransferMapper.toDTO(accountTransferEntity);
     }
-
 }
 

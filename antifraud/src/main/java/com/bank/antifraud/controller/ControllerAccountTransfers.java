@@ -46,7 +46,7 @@ public class ControllerAccountTransfers {
     @ApiResponse(responseCode = "200", description = "Account transfer deleted successfully")
     @ApiResponse(responseCode = "404", description = "Account transfer not found")
     public void deleteSAT(@PathVariable Long id) {
-        sats.delete(id);
+        sats.deleteAccount(id);
     }
 
     @PostMapping()
@@ -64,6 +64,4 @@ public class ControllerAccountTransfers {
     public void updateSAT(@RequestBody AccountTransfersDTO transfersDTO, @PathVariable Long id) {
         sats.updateAccount(transfersDTO, id);
     }
-
-
 }

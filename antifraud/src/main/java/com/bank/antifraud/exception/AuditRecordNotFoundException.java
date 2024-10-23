@@ -11,5 +11,4 @@ public class AuditRecordNotFoundException extends RuntimeException {
         super(message);
         this.location = location;
     }
-
 }

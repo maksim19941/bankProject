@@ -23,6 +23,4 @@ public interface CardTransferMapper {
     List<CardTransfersDTO> toDTOList(List<SuspiciousCardTransfers> cardTransferEntityList);
 
     void updateEntityFromDTO(CardTransfersDTO transferDTO, @MappingTarget SuspiciousCardTransfers cardTransferEntity);
-
-
 }

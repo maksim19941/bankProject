@@ -13,5 +13,4 @@ public class AntifraudApplication {
         SpringApplication.run(AntifraudApplication.class, args);
 
     }
-
 }

@@ -11,5 +11,4 @@ public class EntityNotFoundException extends RuntimeException {
         super(message);
         this.location = location;
     }
-
 }

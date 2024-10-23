@@ -1,6 +1,5 @@
 package com.bank.antifraud.dto;
 
-
 import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,10 +14,10 @@ import lombok.Setter;
 @Builder
 public class PhoneTransfersDTO {
     private Long Id;
+    private Long phone_transfer_id;
     private boolean isBlocked;
     private boolean isSuspicious;
     @Nullable
     private String blockedReason;
     private String suspiciousReason;
-
 }

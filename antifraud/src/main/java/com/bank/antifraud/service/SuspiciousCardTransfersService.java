@@ -19,5 +19,4 @@ public interface SuspiciousCardTransfersService {
     void delete(Long id);
 
     CardTransfersDTO getCardTransfer(Long id);
-
 }

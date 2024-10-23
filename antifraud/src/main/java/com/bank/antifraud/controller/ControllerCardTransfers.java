@@ -63,6 +63,4 @@ public class ControllerCardTransfers {
     public void updateSAT(@RequestBody CardTransfersDTO cardTransfersDTO, @PathVariable Long id) {
         cardService.updateCard(cardTransfersDTO, id);
     }
-
-
 }

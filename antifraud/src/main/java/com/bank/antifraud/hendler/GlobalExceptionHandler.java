@@ -17,7 +17,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> entityNotFoundException(EntityNotFoundException ex) {
 
         log.error("Entity not Found: {} - {}", ex.getLocation(), ex.getMessage(), ex);
-
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
@@ -25,9 +24,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> auditRecordNotFoundException(AuditRecordNotFoundException ex) {
 
         log.error("Audit Record Not Found: {} - {}", ex.getLocation(), ex.getMessage(), ex);
-
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-
 }

@@ -63,6 +63,4 @@ public class ControllerPhoneTransfers {
     public void updateSAT(@RequestBody PhoneTransfersDTO phoneTransfersDTO, @PathVariable Long id) {
         phoneService.updatePhone(phoneTransfersDTO, id);
     }
-
-
 }

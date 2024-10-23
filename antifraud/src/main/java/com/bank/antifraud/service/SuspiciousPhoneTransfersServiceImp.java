@@ -30,7 +30,6 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
     public List<PhoneTransfersDTO> getListPhoneTransfers() {
 
         log.info("Getting all account transfers");
-
         List<SuspiciousPhoneTransfers> accountTransfersListEntity = sptRepository.findAll();
 
         return phoneTransferMapper.toDTOList(accountTransfersListEntity);
@@ -42,10 +41,8 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
 
 
         log.info("Getting account transfer by id: {}", newPhoneTransfers);
-
         SuspiciousPhoneTransfers addPhone = phoneTransferMapper.toEntity(newPhoneTransfers);
         SuspiciousPhoneTransfers accountSave = sptRepository.save(addPhone);
-
 
         return phoneTransferMapper.toDTO(accountSave);
 
@@ -56,14 +53,10 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
     public PhoneTransfersDTO updatePhone(PhoneTransfersDTO updateTrDTO, Long id) {
 
         log.info("Creating account transfer: {}", updateTrDTO);
-
         SuspiciousPhoneTransfers phoneTransfers = sptRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found",
                         "SuspiciousPhoneTransfersServiceImp.update"));
-
-
         phoneTransferMapper.updateEntityFromDTO(updateTrDTO, phoneTransfers);
-
         SuspiciousPhoneTransfers updateAccount = sptRepository.save(phoneTransfers);
 
         return phoneTransferMapper.toDTO(updateAccount);
@@ -73,7 +66,6 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
     public void delete(Long id) {
 
         log.info("Deleting account transfer: {}", id);
-
         try {
             sptRepository.deleteById(id);
         } catch (EntityNotFoundException ex) {
@@ -88,7 +80,6 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
     public PhoneTransfersDTO getPhoneTransfer(Long id) {
 
         log.info("Getting account transfer by id: {}", id);
-
         SuspiciousPhoneTransfers accountTransferEntity = sptRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("An object with this ID was not found, ID: " + id,

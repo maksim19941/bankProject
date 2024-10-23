@@ -14,11 +14,10 @@ import lombok.Setter;
 @Builder
 public class CardTransfersDTO {
     private Long Id;
+    private Long card_transfer_id;
     private boolean isBlocked;
     private boolean isSuspicious;
     @Nullable
     private String blockedReason;
     private String suspiciousReason;
-
-
 }

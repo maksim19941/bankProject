@@ -10,6 +10,4 @@ import java.util.Optional;
 public interface AuditRepository extends JpaRepository<AuditModel, Long> {
 
     Optional<AuditModel> findFirstByEntityJsonStartingWithOrderByModifiedAt(String json);
-
-
 }
