@@ -5,7 +5,9 @@ import com.bank.antifraud.service.SuspiciousCardTransfersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.validation.annotation.Validated;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@Validated
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/card_transfers")
@@ -29,38 +31,65 @@ public class ControllerCardTransfers {
     @Operation(summary = "Get card transfer by ID")
     @ApiResponse(responseCode = "200", description = "Successful retrieval of card transfer")
     @ApiResponse(responseCode = "404", description = "card transfer not found")
-    public CardTransfersDTO getSAT(@PathVariable Long id) {
-        return cardService.getCardTransfer(id);
+    public ResponseEntity<CardTransfersDTO> getSAT(@PathVariable Long id) {
+
+        CardTransfersDTO transfer = cardService.getCardTransfer(id);
+
+        if (transfer == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(transfer);
     }
 
     @GetMapping()
     @Operation(summary = "Get all card transfers")
     @ApiResponse(responseCode = "200", description = "List of all card transfers")
-    public List<CardTransfersDTO> getAllSAT() {
-        return cardService.getListSCardTransfers();
+    public ResponseEntity<List<CardTransfersDTO>> getAllSAT() {
+
+        log.info("Retrieving all card transfers");
+
+        List<CardTransfersDTO> transfers = cardService.getListSCardTransfers();
+
+        return ResponseEntity.ok(transfers);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete card transfer by ID")
     @ApiResponse(responseCode = "200", description = "card transfer deleted successfully")
     @ApiResponse(responseCode = "404", description = "card transfer not found")
-    public void deleteSAT(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSAT(@PathVariable Long id) {
+
+        log.info("Deleting card transfer with ID: {}", id);
+
         cardService.delete(id);
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PostMapping()
     @Operation(summary = "Save new card transfer")
     @ApiResponse(responseCode = "201", description = "New card transfer saved successfully")
     @ApiResponse(responseCode = "400", description = "Invalid input data")
-    public void saveSAT(@RequestBody CardTransfersDTO cardTransfersDTO) {
-        cardService.saveCard(cardTransfersDTO);
+    public ResponseEntity<String> saveSAT(@RequestBody CardTransfersDTO transfersDTO) {
+
+        log.info("Saving new card transfer: {}", transfersDTO);
+
+        cardService.saveCard(transfersDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Объект сохранен");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping()
     @Operation(summary = "Update existing card transfer")
     @ApiResponse(responseCode = "200", description = "card transfer updated successfully")
     @ApiResponse(responseCode = "404", description = "card transfer not found")
-    public void updateSAT(@RequestBody CardTransfersDTO cardTransfersDTO, @PathVariable Long id) {
-        cardService.updateCard(cardTransfersDTO, id);
+    @ApiResponse(responseCode = "400", description = "card transfer not found")
+    public ResponseEntity<String> updateSAT(@RequestBody CardTransfersDTO transfersDTO) {
+
+        log.info("Updating card transfer with ID: {}, Data: {}", transfersDTO.getId(), transfersDTO);
+
+        cardService.updateCard(transfersDTO);
+
+        return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
     }
 }

@@ -10,10 +10,10 @@ public interface SuspiciousPhoneTransfersService {
     List<PhoneTransfersDTO> getListPhoneTransfers();
 
     @Transactional
-    PhoneTransfersDTO savePhone(PhoneTransfersDTO newPhoneTransfers);
+    void savePhone(PhoneTransfersDTO newPhoneTransfers);
 
     @Transactional
-    PhoneTransfersDTO updatePhone(PhoneTransfersDTO updateTrDTO, Long id);
+    void updatePhone(PhoneTransfersDTO updateTrDTO);
 
     void delete(Long id);
 

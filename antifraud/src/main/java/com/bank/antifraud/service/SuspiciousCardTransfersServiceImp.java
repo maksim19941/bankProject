@@ -2,6 +2,7 @@ package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.CardTransfersDTO;
 import com.bank.antifraud.exception.EntityNotFoundException;
+import com.bank.antifraud.exception.ValidationException;
 import com.bank.antifraud.mapper.CardTransferMapper;
 import com.bank.antifraud.model.SuspiciousCardTransfers;
 import com.bank.antifraud.repository.SuspiciousCardTransfersRepository;
@@ -29,62 +30,82 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
     public List<CardTransfersDTO> getListSCardTransfers() {
 
         log.info("Getting all card transfers");
-        List<SuspiciousCardTransfers> accountTransfersListEntity = sctRepository.findAll();
 
-        return cardTransferMapper.toDTOList(accountTransfersListEntity);
+        List<SuspiciousCardTransfers> cardTransfersListEntity = sctRepository.findAll();
 
+        return cardTransferMapper.toDTOList(cardTransfersListEntity);
     }
 
     @Override
     @Transactional
-    public CardTransfersDTO saveCard(CardTransfersDTO newCardTransfers) {
+    public void saveCard(CardTransfersDTO newCardTransfers) {
 
-        log.info("Getting account transfer by id: {}", newCardTransfers);
+        log.info("Getting card transfer by id: {}", newCardTransfers);
+
+        if (newCardTransfers.getCard_transfer_id() == null) {
+            throw new ValidationException("Card transfer ID must not be null.", "CardTransferServiceImpl.saveCard");
+        }
+
+        if (newCardTransfers.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
+                    "cardTransferServiceImpl.saveCard");
+        }
+
         SuspiciousCardTransfers cardTransfers = cardTransferMapper.toEntity(newCardTransfers);
-        SuspiciousCardTransfers accountSave = sctRepository.save(cardTransfers);
-
-        return cardTransferMapper.toDTO(accountSave);
-
+        SuspiciousCardTransfers cardSave = sctRepository.save(cardTransfers);
+        cardTransferMapper.toDTO(cardSave);
     }
 
     @Override
     @Transactional
-    public CardTransfersDTO updateCard(CardTransfersDTO updateTrDTO, Long id) {
+    public void updateCard(CardTransfersDTO updateTrDTO) {
+        log.info("Updating card transfer: {}", updateTrDTO);
 
-        log.info("Creating account transfer: {}", updateTrDTO);
-        SuspiciousCardTransfers accountTransfers = sctRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found",
-                        "CardTransferMapperServiceImp.update"));
-        cardTransferMapper.updateEntityFromDTO(updateTrDTO, accountTransfers);
-        SuspiciousCardTransfers updateAccount = sctRepository.save(accountTransfers);
+        if (updateTrDTO.getCard_transfer_id() == null) {
+            throw new ValidationException(
+                    "Card transfer ID must not be null.",
+                    "CardTransferServiceImpl.updateCard"
+            );
+        }
+        if (updateTrDTO.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException(
+                    "Suspicious reason must not be null and must contain at least 3 characters",
+                    "CardTransferServiceImpl.updateCard");
 
-        return cardTransferMapper.toDTO(updateAccount);
+        }
+        SuspiciousCardTransfers cardTransfers = sctRepository.findById(updateTrDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "CardTransfers not found ID: " + updateTrDTO.getId(),
+                        "CardTransferServiceImpl.updateCard"
+                ));
+
+        cardTransferMapper.updateEntityFromDTO(updateTrDTO, cardTransfers);
+        SuspiciousCardTransfers updatedCard = sctRepository.save(cardTransfers);
+        cardTransferMapper.toDTO(updatedCard);
     }
 
     @Override
     public void delete(Long id) {
 
-        log.info("Deleting account transfer: {}", id);
+        log.info("Deleting card transfer: {}", id);
         try {
             sctRepository.deleteById(id);
         } catch (EntityNotFoundException ex) {
-
             throw new EntityNotFoundException(
                     "An object with this ID was not found for deletion, ID: " + id,
-                    "AccountTransferServiceImpl.deleteAccountTransfer");
+                    "cardTransferServiceImpl.deleteCardTransfer");
         }
     }
 
     @Override
     public CardTransfersDTO getCardTransfer(Long id) {
 
-        log.info("Getting account transfer by id: {}", id);
-        SuspiciousCardTransfers accountTransferEntity = sctRepository.findById(id)
+        log.info("Getting card transfer by id: {}", id);
+        SuspiciousCardTransfers cardTransferEntity = sctRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("An object with this ID was not found, ID: " + id,
-                                "AccountTransferServiceImpl.getAccountTransferById"));
-
-        return cardTransferMapper.toDTO(accountTransferEntity);
+                                "cardTransferServiceImpl.getCardTransferById"));
+        return cardTransferMapper.toDTO(cardTransferEntity);
     }
 }
 

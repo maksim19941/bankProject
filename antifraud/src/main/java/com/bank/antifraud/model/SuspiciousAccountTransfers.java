@@ -3,9 +3,10 @@ package com.bank.antifraud.model;
 import io.micrometer.core.lang.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.Setter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,8 +18,8 @@ import javax.validation.constraints.NotNull;
 @Entity
 @NotNull
 @Builder
-@ToString
-@EqualsAndHashCode
+@Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "suspicious_account_transfers", schema = "anti_fraud")

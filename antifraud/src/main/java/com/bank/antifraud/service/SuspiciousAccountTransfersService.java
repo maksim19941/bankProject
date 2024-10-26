@@ -10,10 +10,10 @@ public interface SuspiciousAccountTransfersService {
     List<AccountTransfersDTO> getListSAccountTransfers();
 
     @Transactional
-    AccountTransfersDTO saveAccount(AccountTransfersDTO newAccountTransfers);
+    void saveAccount(AccountTransfersDTO newAccountTransfers);
 
     @Transactional
-    AccountTransfersDTO updateAccount(AccountTransfersDTO updateTrDTO, Long id);
+    void updateAccount(AccountTransfersDTO updateTrDTO);
 
     void deleteAccount(Long id);
 

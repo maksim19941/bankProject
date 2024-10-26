@@ -2,6 +2,7 @@ package com.bank.antifraud.hendler;
 
 import com.bank.antifraud.exception.AuditRecordNotFoundException;
 import com.bank.antifraud.exception.EntityNotFoundException;
+import com.bank.antifraud.exception.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,5 +26,12 @@ public class GlobalExceptionHandler {
 
         log.error("Audit Record Not Found: {} - {}", ex.getLocation(), ex.getMessage(), ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public ResponseEntity<String> validationException(ValidationException ex) {
+
+        log.error("Validation error occurred: {} - {}", ex.getLocation(), ex.getMessage(), ex);
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

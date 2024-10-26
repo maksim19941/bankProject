@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class PhoneTransfersDTO {
-    private Long Id;
+    private Long id;
     private Long phone_transfer_id;
     private boolean isBlocked;
     private boolean isSuspicious;

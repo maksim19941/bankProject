@@ -2,6 +2,7 @@ package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.PhoneTransfersDTO;
 import com.bank.antifraud.exception.EntityNotFoundException;
+import com.bank.antifraud.exception.ValidationException;
 import com.bank.antifraud.mapper.PhoneTransferMapper;
 import com.bank.antifraud.model.SuspiciousPhoneTransfers;
 import com.bank.antifraud.repository.SuspicionsPhoneTransfersRepository;
@@ -23,13 +24,13 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
     @Autowired
     public SuspiciousPhoneTransfersServiceImp(SuspicionsPhoneTransfersRepository sptRepository) {
         this.sptRepository = sptRepository;
-
     }
 
     @Override
     public List<PhoneTransfersDTO> getListPhoneTransfers() {
 
-        log.info("Getting all account transfers");
+        log.info("Getting all phone transfers");
+
         List<SuspiciousPhoneTransfers> accountTransfersListEntity = sptRepository.findAll();
 
         return phoneTransferMapper.toDTOList(accountTransfersListEntity);
@@ -37,53 +38,71 @@ public class SuspiciousPhoneTransfersServiceImp implements SuspiciousPhoneTransf
 
     @Override
     @Transactional
-    public PhoneTransfersDTO savePhone(PhoneTransfersDTO newPhoneTransfers) {
+    public void savePhone(PhoneTransfersDTO newPhoneTransfers) {
 
 
         log.info("Getting account transfer by id: {}", newPhoneTransfers);
+
+        if (newPhoneTransfers.getPhone_transfer_id() == null) {
+            throw new ValidationException("Phone transfer ID must not be null.", "PhoneTransferServiceImpl.savePhone");
+        }
+
+        if (newPhoneTransfers.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
+                    "SuspiciousPhoneTransfersServiceImp.savePhone");
+        }
+
         SuspiciousPhoneTransfers addPhone = phoneTransferMapper.toEntity(newPhoneTransfers);
         SuspiciousPhoneTransfers accountSave = sptRepository.save(addPhone);
-
-        return phoneTransferMapper.toDTO(accountSave);
-
+        phoneTransferMapper.toDTO(accountSave);
     }
 
     @Override
     @Transactional
-    public PhoneTransfersDTO updatePhone(PhoneTransfersDTO updateTrDTO, Long id) {
+    public void updatePhone(PhoneTransfersDTO updateTrDTO) {
 
-        log.info("Creating account transfer: {}", updateTrDTO);
-        SuspiciousPhoneTransfers phoneTransfers = sptRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found",
-                        "SuspiciousPhoneTransfersServiceImp.update"));
+        log.info("Creating phone transfer: {}", updateTrDTO);
+
+        if (updateTrDTO.getPhone_transfer_id() == null) {
+            throw new ValidationException("Phone transfer ID must not be null.", "PhoneTransferServiceImpl.updatePhone");
+        }
+
+        if (updateTrDTO.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
+                    "PhoneTransferServiceImpl.updatePhone");
+        }
+
+        SuspiciousPhoneTransfers phoneTransfers = sptRepository.findById(updateTrDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("PhoneTransfers not found ID: " + updateTrDTO.getId(),
+                        "PhoneTransferServiceImpl.updatePhone"));
+
         phoneTransferMapper.updateEntityFromDTO(updateTrDTO, phoneTransfers);
         SuspiciousPhoneTransfers updateAccount = sptRepository.save(phoneTransfers);
-
-        return phoneTransferMapper.toDTO(updateAccount);
+        phoneTransferMapper.toDTO(updateAccount);
     }
 
     @Override
     public void delete(Long id) {
 
-        log.info("Deleting account transfer: {}", id);
+        log.info("Deleting phone transfer: {}", id);
         try {
             sptRepository.deleteById(id);
         } catch (EntityNotFoundException ex) {
 
             throw new EntityNotFoundException(
                     "An object with this ID was not found for deletion, ID: " + id,
-                    "AccountTransferServiceImpl.deleteAccountTransfer");
+                    "PhoneTransferServiceImpl.deletePhoneTransfer");
         }
     }
 
     @Override
     public PhoneTransfersDTO getPhoneTransfer(Long id) {
 
-        log.info("Getting account transfer by id: {}", id);
+        log.info("Getting phone transfer by id: {}", id);
         SuspiciousPhoneTransfers accountTransferEntity = sptRepository.findById(id)
                 .orElseThrow(() ->
                         new EntityNotFoundException("An object with this ID was not found, ID: " + id,
-                                "AccountTransferServiceImpl.getAccountTransferById"));
+                                "PhoneTransferServiceImpl.getPhoneTransferById"));
 
         return phoneTransferMapper.toDTO(accountTransferEntity);
     }

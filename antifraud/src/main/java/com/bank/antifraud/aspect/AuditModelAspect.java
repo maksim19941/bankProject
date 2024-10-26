@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
+
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -24,13 +25,13 @@ public class AuditModelAspect {
         this.auditModelService = auditModelService;
         this.objectMapper = objectMapper;
     }
-
     @AfterReturning(pointcut = "execution(* com.bank.antifraud.service.*.save*(..)) || execution(* com.bank.antifraud.service.*.update*(..))", returning = "result")
     public void afterResultAdvice(JoinPoint joinPoint, Object result) {
         if (result == null) {
             log.warn("Result is null for method: {}", joinPoint.getSignature().getName());
             return;
         }
+
         MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
         AuditModel auditModel = new AuditModel();
         try {

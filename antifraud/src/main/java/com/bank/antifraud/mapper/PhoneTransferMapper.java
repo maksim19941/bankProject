@@ -16,12 +16,14 @@ public interface PhoneTransferMapper {
     PhoneTransferMapper INSTANCE = Mappers.getMapper(PhoneTransferMapper.class);
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "phone_transfer_id", source = "phoneTransferDTO.phone_transfer_id")
     SuspiciousPhoneTransfers toEntity(PhoneTransfersDTO phoneTransferDTO);
 
     PhoneTransfersDTO toDTO(SuspiciousPhoneTransfers phoneTransferEntity);
 
     List<PhoneTransfersDTO> toDTOList(List<SuspiciousPhoneTransfers> phoneTransferEntityList);
 
-    void updateEntityFromDTO(PhoneTransfersDTO phoneTransferDTO, @MappingTarget SuspiciousPhoneTransfers phoneTransferEntity);
+    void updateEntityFromDTO(PhoneTransfersDTO phoneTransferDTO,
+                             @MappingTarget SuspiciousPhoneTransfers phoneTransferEntity);
 
 }

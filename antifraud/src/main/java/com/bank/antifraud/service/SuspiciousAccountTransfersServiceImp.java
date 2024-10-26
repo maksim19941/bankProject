@@ -2,6 +2,7 @@ package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.AccountTransfersDTO;
 import com.bank.antifraud.exception.EntityNotFoundException;
+import com.bank.antifraud.exception.ValidationException;
 import com.bank.antifraud.mapper.AccountTransferMapper;
 import com.bank.antifraud.model.SuspiciousAccountTransfers;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
@@ -48,25 +49,44 @@ public class SuspiciousAccountTransfersServiceImp implements SuspiciousAccountTr
 
     @Override
     @Transactional
-    public AccountTransfersDTO saveAccount(AccountTransfersDTO newAccountTransfers) {
+    public void saveAccount(AccountTransfersDTO newAccountTransfers) {
 
         log.info("Getting account transfer by id: {}", newAccountTransfers);
+
+        if (newAccountTransfers.getAccount_transfer_id() == null) {
+            throw new ValidationException("Account transfer ID must not be null.", "AccountTransferServiceImpl.saveAccount");
+        }
+
+        if (newAccountTransfers.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
+                    "AccountTransferServiceImpl.saveAccount");
+        }
+
         SuspiciousAccountTransfers addAccountTransfers = accountTransferMapper.toEntity(newAccountTransfers);
         SuspiciousAccountTransfers accountSave = satRepository.save(addAccountTransfers);
-        return accountTransferMapper.toDTO(accountSave);
+        accountTransferMapper.toDTO(accountSave);
     }
 
     @Override
     @Transactional
-    public AccountTransfersDTO updateAccount(AccountTransfersDTO updateTrDTO, Long id) {
+    public void updateAccount(AccountTransfersDTO updateTrDTO) {
 
         log.info("Creating account transfer: {}", updateTrDTO);
-        SuspiciousAccountTransfers accountTransfers = satRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found",
-                        "SuspiciousAccountTransfersServiceImp.update"));
+
+        if (updateTrDTO.getAccount_transfer_id() == null) {
+            throw new ValidationException("Account transfer ID must not be null.", "AccountTransferServiceImpl.updateAccount");
+        }
+        if (updateTrDTO.getSuspiciousReason().trim().length() < 3) {
+            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
+                    "AccountTransferServiceImpl.updateAccount");
+        }
+        SuspiciousAccountTransfers accountTransfers = satRepository.findById(updateTrDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found ID: " + updateTrDTO.getId(),
+                        "AccountTransferServiceImpl.updateAccount"));
+
         accountTransferMapper.updateEntityFromDTO(updateTrDTO, accountTransfers);
         SuspiciousAccountTransfers updateAccount = satRepository.save(accountTransfers);
-        return accountTransferMapper.toDTO(updateAccount);
+        accountTransferMapper.toDTO(updateAccount);
     }
 
     @Override

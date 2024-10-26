@@ -1,7 +1,10 @@
 package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.CardTransfersDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Entity;
 
 import java.util.List;
 
@@ -11,10 +14,10 @@ public interface SuspiciousCardTransfersService {
     List<CardTransfersDTO> getListSCardTransfers();
 
     @Transactional
-    CardTransfersDTO saveCard(CardTransfersDTO newCardTransfers);
+    void saveCard(CardTransfersDTO newCardTransfers);
 
     @Transactional
-    CardTransfersDTO updateCard(CardTransfersDTO updateTrDTO, Long id);
+    void updateCard(CardTransfersDTO updateTrDTO);
 
     void delete(Long id);
 
