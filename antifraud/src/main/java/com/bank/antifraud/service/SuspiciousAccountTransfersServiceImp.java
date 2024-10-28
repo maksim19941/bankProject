@@ -8,6 +8,7 @@ import com.bank.antifraud.model.SuspiciousAccountTransfers;
 import com.bank.antifraud.repository.SuspiciousAccountTransfersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,36 +50,44 @@ public class SuspiciousAccountTransfersServiceImp implements SuspiciousAccountTr
 
     @Override
     @Transactional
-    public void saveAccount(AccountTransfersDTO newAccountTransfers) {
+    public HttpStatus saveAccount(AccountTransfersDTO newAccountTransfers) {
 
         log.info("Getting account transfer by id: {}", newAccountTransfers);
 
         if (newAccountTransfers.getAccount_transfer_id() == null) {
-            throw new ValidationException("Account transfer ID must not be null.", "AccountTransferServiceImpl.saveAccount");
-        }
+            throw new ValidationException("Account transfer ID must not be null.", "AccountTransferServiceImpl.saveAccount",
+                    HttpStatus.BAD_REQUEST);
 
+        }
         if (newAccountTransfers.getSuspiciousReason().trim().length() < 3) {
             throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
-                    "AccountTransferServiceImpl.saveAccount");
+                    "AccountTransferServiceImpl.saveAccount", HttpStatus.BAD_REQUEST);
         }
 
         SuspiciousAccountTransfers addAccountTransfers = accountTransferMapper.toEntity(newAccountTransfers);
         SuspiciousAccountTransfers accountSave = satRepository.save(addAccountTransfers);
         accountTransferMapper.toDTO(accountSave);
+        return HttpStatus.OK;
     }
 
     @Override
     @Transactional
-    public void updateAccount(AccountTransfersDTO updateTrDTO) {
+    public HttpStatus updateAccount(AccountTransfersDTO updateTrDTO) {
 
         log.info("Creating account transfer: {}", updateTrDTO);
 
         if (updateTrDTO.getAccount_transfer_id() == null) {
-            throw new ValidationException("Account transfer ID must not be null.", "AccountTransferServiceImpl.updateAccount");
+            throw new ValidationException(
+                    "Account transfer ID must not be null.",
+                    "AccountTransferServiceImpl.updateAccount",
+                    HttpStatus.BAD_REQUEST
+            );
         }
         if (updateTrDTO.getSuspiciousReason().trim().length() < 3) {
-            throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
-                    "AccountTransferServiceImpl.updateAccount");
+            throw new ValidationException(
+                    "Suspicious reason must not be null and must contain at least 3 characters",
+                    "AccountTransferServiceImpl.updateAccount",
+                    HttpStatus.BAD_REQUEST);
         }
         SuspiciousAccountTransfers accountTransfers = satRepository.findById(updateTrDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("AccountTransfers not found ID: " + updateTrDTO.getId(),
@@ -87,19 +96,17 @@ public class SuspiciousAccountTransfersServiceImp implements SuspiciousAccountTr
         accountTransferMapper.updateEntityFromDTO(updateTrDTO, accountTransfers);
         SuspiciousAccountTransfers updateAccount = satRepository.save(accountTransfers);
         accountTransferMapper.toDTO(updateAccount);
+        return HttpStatus.OK;
     }
 
     @Override
     public void deleteAccount(Long id) {
 
         log.info("Deleting account transfer: {}", id);
-        try {
-            satRepository.deleteById(id);
-        } catch (EntityNotFoundException ex) {
-
-            throw new EntityNotFoundException(
-                    "An object with this ID was not found for deletion, ID: " + id,
-                    "AccountTransferServiceImpl.deleteAccountTransfer");
+        if (!satRepository.existsById(id)) {
+            throw new EntityNotFoundException("An object with this ID was not found for deletion, ID: " + id,
+                    "PhoneTransferServiceImpl.deletePhoneTransfer");
         }
+        satRepository.deleteById(id);
     }
 }

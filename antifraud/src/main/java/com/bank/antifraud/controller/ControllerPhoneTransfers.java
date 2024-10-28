@@ -57,11 +57,11 @@ public class ControllerPhoneTransfers {
     @Operation(summary = "Delete phone transfer by ID")
     @ApiResponse(responseCode = "200", description = "phone transfer deleted successfully")
     @ApiResponse(responseCode = "404", description = "phone transfer not found")
-    public ResponseEntity<Void> deleteSAT(@PathVariable Long id) {
+    public ResponseEntity<String> deleteSAT(@PathVariable Long id) {
 
         log.info("Deleting phone transfer with ID: {}", id);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("Объект удалён");
     }
 
     @PostMapping()
@@ -71,9 +71,13 @@ public class ControllerPhoneTransfers {
     public ResponseEntity<String> saveSAT(@RequestBody PhoneTransfersDTO phoneTransfersDTO) {
         log.info("Saving new card transfer: {}", phoneService);
 
-        phoneService.savePhone(phoneTransfersDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Объект сохранен");
+        try {
+            phoneService.savePhone(phoneTransfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект сохранен");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
 
     @PutMapping()
@@ -84,9 +88,12 @@ public class ControllerPhoneTransfers {
 
         log.info("Updating card transfer with ID: {}, Data: {}", phoneTransfersDTO.getId(), phoneTransfersDTO);
 
-
-        phoneService.updatePhone(phoneTransfersDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        try {
+            phoneService.updatePhone(phoneTransfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
 }

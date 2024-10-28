@@ -1,6 +1,7 @@
 package com.bank.antifraud.service;
 
 import com.bank.antifraud.dto.PhoneTransfersDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -10,10 +11,10 @@ public interface SuspiciousPhoneTransfersService {
     List<PhoneTransfersDTO> getListPhoneTransfers();
 
     @Transactional
-    void savePhone(PhoneTransfersDTO newPhoneTransfers);
+    HttpStatus savePhone(PhoneTransfersDTO newPhoneTransfers);
 
     @Transactional
-    void updatePhone(PhoneTransfersDTO updateTrDTO);
+    HttpStatus updatePhone(PhoneTransfersDTO updateTrDTO);
 
     void delete(Long id);
 

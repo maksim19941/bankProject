@@ -26,42 +26,56 @@ public class Util {
 
     @PostConstruct
     private void post() {
-
-        Long id = 1L;
-
-        SuspiciousAccountTransfers accountTransfers = SuspiciousAccountTransfers.builder()
-                .id(id)
-                .isBlocked(false)
-                .isSuspicious(false)
-                .blockedReason("frod")
-                .suspiciousReason("frod")
-                .build();
-
-
-
-        SuspiciousCardTransfers cardTransfers = SuspiciousCardTransfers.builder()
-                .id(id)
-                .isBlocked(false)
-                .isSuspicious(false)
-                .blockedReason("frod")
-                .suspiciousReason("frod")
-                .build();
-
-        SuspiciousPhoneTransfers phoneTransfers = SuspiciousPhoneTransfers.builder()
-                .id(id)
-                .isBlocked(false)
-                .isSuspicious(false)
-                .blockedReason("frod")
-                .suspiciousReason("frod")
-                .build();
-
-        repositoryAcc.save(accountTransfers);
-        repositoryCard.save(cardTransfers);
-        repositoryPh.save(phoneTransfers);
-
-
-
+        createAccountTransfers();
+        createCardTransfers();
+        createPhoneTransfers();
     }
+
+    private void createAccountTransfers() {
+        for (long i = 1; i <= 5; i++) {
+            SuspiciousAccountTransfers accountTransfers = SuspiciousAccountTransfers.builder()
+                    .id(i)
+                    .account_transfer_id(213123L + i)
+                    .isBlocked(false)
+                    .isSuspicious(false)
+                    .blockedReason("fraud " + i)
+                    .suspiciousReason("fraud " + i)
+                    .build();
+
+            repositoryAcc.save(accountTransfers);
+        }
+    }
+
+    private void createCardTransfers() {
+        for (long i = 1; i <= 5; i++) {
+            SuspiciousCardTransfers cardTransfers = SuspiciousCardTransfers.builder()
+                    .id(i)
+                    .card_transfer_id(4234234L + i)
+                    .isBlocked(false)
+                    .isSuspicious(false)
+                    .blockedReason("fraud " + i)
+                    .suspiciousReason("fraud " + i)
+                    .build();
+
+            repositoryCard.save(cardTransfers);
+        }
+    }
+
+    private void createPhoneTransfers() {
+        for (long i = 1; i <= 5; i++) {
+            SuspiciousPhoneTransfers phoneTransfers = SuspiciousPhoneTransfers.builder()
+                    .id(i)
+                    .phone_transfer_id(4234235L + i)
+                    .isBlocked(false)
+                    .isSuspicious(false)
+                    .blockedReason("fraud " + i)
+                    .suspiciousReason("fraud " + i)
+                    .build();
+
+            repositoryPh.save(phoneTransfers);
+        }
+    }
+
 
 
 }

@@ -1,5 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <checkstyle version="9.3">
-<file name="/Users/sergey/Projects/!JM/antifraud/src/main/java/com/bank/antifraud/AntifraudApplication.java">
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\aspect\AuditModelAspect.java">
+<error line="1" severity="error" message="File does not end with a newline." source="com.puppycrawl.tools.checkstyle.checks.NewlineAtEndOfFileCheck"/>
+<error line="29" severity="error" message="Line is longer than 120 characters (found 164)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="52" column="5" severity="error" message="&apos;}&apos; is not followed by whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+<error line="52" column="6" severity="error" message="&apos;}&apos; is not preceded with whitespace." source="com.puppycrawl.tools.checkstyle.checks.whitespace.WhitespaceAroundCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\controller\ControllerAccountTransfers.java">
+<error line="38" column="29" severity="error" message="Variable &apos;transfer&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="50" column="35" severity="error" message="Variable &apos;transfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\controller\ControllerCardTransfers.java">
+<error line="36" column="26" severity="error" message="Variable &apos;transfer&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="49" column="32" severity="error" message="Variable &apos;transfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\dto\AccountTransfersDTO.java">
+<error line="17" column="18" severity="error" message="Name &apos;account_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\dto\CardTransfersDTO.java">
+<error line="17" column="18" severity="error" message="Name &apos;card_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\dto\PhoneTransfersDTO.java">
+<error line="17" column="18" severity="error" message="Name &apos;phone_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\mapper\CardTransferMapper.java">
+<error line="26" severity="error" message="Line is longer than 120 characters (found 122)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\model\AuditModel.java">
+<error line="31" column="62" severity="error" message="&apos;40&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\model\SuspiciousAccountTransfers.java">
+<error line="32" column="18" severity="error" message="Name &apos;account_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\model\SuspiciousCardTransfers.java">
+<error line="6" column="8" severity="error" message="Unused import - lombok.EqualsAndHashCode." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="10" column="8" severity="error" message="Unused import - lombok.ToString." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="35" column="18" severity="error" message="Name &apos;card_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\model\SuspiciousPhoneTransfers.java">
+<error line="6" column="8" severity="error" message="Unused import - lombok.EqualsAndHashCode." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="10" column="8" severity="error" message="Unused import - lombok.ToString." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="34" column="18" severity="error" message="Name &apos;phone_transfer_id&apos; must match pattern &apos;^[a-z][a-zA-Z0-9]*$&apos;." source="com.puppycrawl.tools.checkstyle.checks.naming.MemberNameCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\service\AuditServiceImp.java">
+<error line="6" column="8" severity="error" message="Unused import - liquibase.pro.packaged.A." source="com.puppycrawl.tools.checkstyle.checks.imports.UnusedImportsCheck"/>
+<error line="41" column="30" severity="error" message="Variable &apos;auditOptional&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="43" column="24" severity="error" message="Variable &apos;audit&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="64" column="26" severity="error" message="Variable &apos;audits&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\service\SuspiciousAccountTransfersServiceImp.java">
+<error line="32" column="18" severity="error" message="The String &quot;Getting account transfer by id: {}&quot; appears 2 times in the file." source="com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck"/>
+<error line="33" column="36" severity="error" message="Variable &apos;accountTransferEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="45" column="42" severity="error" message="Variable &apos;accountTransfersListEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="57" severity="error" message="Line is longer than 120 characters (found 126)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="57" column="84" severity="error" message="The String &quot;AccountTransferServiceImpl.saveAccount&quot; appears 2 times in the file." source="com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck"/>
+<error line="60" column="73" severity="error" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="65" column="36" severity="error" message="Variable &apos;addAccountTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="66" column="36" severity="error" message="Variable &apos;accountSave&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="75" column="36" severity="error" message="Variable &apos;accountTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="81" column="36" severity="error" message="Variable &apos;updateAccount&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\service\SuspiciousCardTransfersServiceImp.java">
+<error line="34" column="39" severity="error" message="Variable &apos;accountTransfersListEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="44" column="18" severity="error" message="The String &quot;Getting account transfer by id: {}&quot; appears 2 times in the file." source="com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck"/>
+<error line="50" column="70" severity="error" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="55" column="33" severity="error" message="Variable &apos;cardTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="56" column="33" severity="error" message="Variable &apos;accountSave&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="67" column="33" severity="error" message="Variable &apos;accountTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="71" column="33" severity="error" message="Variable &apos;updateAccount&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="94" column="33" severity="error" message="Variable &apos;accountTransferEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\service\SuspiciousPhoneTransfersServiceImp.java">
+<error line="35" column="40" severity="error" message="Variable &apos;accountTransfersListEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="45" column="18" severity="error" message="The String &quot;Getting account transfer by id: {}&quot; appears 2 times in the file." source="com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck"/>
+<error line="51" column="71" severity="error" message="&apos;3&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="56" column="34" severity="error" message="Variable &apos;addPhone&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="57" column="34" severity="error" message="Variable &apos;accountSave&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="67" column="34" severity="error" message="Variable &apos;phoneTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="72" column="34" severity="error" message="Variable &apos;updateAccount&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="95" column="34" severity="error" message="Variable &apos;accountTransferEntity&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+</file>
+<file name="C:\Users\123\Desktop\my_project_idea\p_ss_bank_511\antifraud\src\main\java\com\bank\antifraud\util\Util.java">
+<error line="20" severity="error" message="Line is longer than 120 characters (found 168)." source="com.puppycrawl.tools.checkstyle.checks.sizes.LineLengthCheck"/>
+<error line="35" column="31" severity="error" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="36" column="40" severity="error" message="Variable &apos;accountTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="38" column="42" severity="error" message="&apos;213123L&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="41" column="36" severity="error" message="The String &quot;fraud &quot; appears 6 times in the file." source="com.puppycrawl.tools.checkstyle.checks.coding.MultipleStringLiteralsCheck"/>
+<error line="50" column="31" severity="error" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="51" column="37" severity="error" message="Variable &apos;cardTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="53" column="39" severity="error" message="&apos;4234234L&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="65" column="31" severity="error" message="&apos;5&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
+<error line="66" column="38" severity="error" message="Variable &apos;phoneTransfers&apos; should be declared final." source="com.puppycrawl.tools.checkstyle.checks.coding.FinalLocalVariableCheck"/>
+<error line="68" column="40" severity="error" message="&apos;4234235L&apos; is a magic number." source="com.puppycrawl.tools.checkstyle.checks.coding.MagicNumberCheck"/>
 </file>
 </checkstyle>

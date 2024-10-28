@@ -14,10 +14,10 @@ public interface SuspiciousCardTransfersService {
     List<CardTransfersDTO> getListSCardTransfers();
 
     @Transactional
-    void saveCard(CardTransfersDTO newCardTransfers);
+    HttpStatus saveCard(CardTransfersDTO newCardTransfers);
 
     @Transactional
-    void updateCard(CardTransfersDTO updateTrDTO);
+    HttpStatus updateCard(CardTransfersDTO updateTrDTO);
 
     void delete(Long id);
 

@@ -1,6 +1,7 @@
 package com.bank.antifraud.controller;
 
 import com.bank.antifraud.dto.CardTransfersDTO;
+import com.bank.antifraud.exception.ValidationException;
 import com.bank.antifraud.service.SuspiciousCardTransfersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -31,10 +32,9 @@ public class ControllerCardTransfers {
     @Operation(summary = "Get card transfer by ID")
     @ApiResponse(responseCode = "200", description = "Successful retrieval of card transfer")
     @ApiResponse(responseCode = "404", description = "card transfer not found")
-    public ResponseEntity<CardTransfersDTO> getSAT(@PathVariable Long id) {
+    public ResponseEntity<CardTransfersDTO> getCard(@PathVariable Long id) {
 
         CardTransfersDTO transfer = cardService.getCardTransfer(id);
-
         if (transfer == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -57,13 +57,13 @@ public class ControllerCardTransfers {
     @Operation(summary = "Delete card transfer by ID")
     @ApiResponse(responseCode = "200", description = "card transfer deleted successfully")
     @ApiResponse(responseCode = "404", description = "card transfer not found")
-    public ResponseEntity<Void> deleteSAT(@PathVariable Long id) {
+    public ResponseEntity<String> deleteSAT(@PathVariable Long id) {
 
         log.info("Deleting card transfer with ID: {}", id);
 
         cardService.delete(id);
 
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return ResponseEntity.status(HttpStatus.OK).body("Объект удалён");
     }
 
     @PostMapping()
@@ -74,11 +74,14 @@ public class ControllerCardTransfers {
 
         log.info("Saving new card transfer: {}", transfersDTO);
 
-        cardService.saveCard(transfersDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Объект сохранен");
+        try {
+            cardService.saveCard(transfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект сохранен");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
-
     @PutMapping()
     @Operation(summary = "Update existing card transfer")
     @ApiResponse(responseCode = "200", description = "card transfer updated successfully")
@@ -88,8 +91,12 @@ public class ControllerCardTransfers {
 
         log.info("Updating card transfer with ID: {}, Data: {}", transfersDTO.getId(), transfersDTO);
 
-        cardService.updateCard(transfersDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        try {
+            cardService.updateCard(transfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.bank.antifraud.controller;
 
 import com.bank.antifraud.dto.AccountTransfersDTO;
+import com.bank.antifraud.exception.ValidationException;
 import com.bank.antifraud.service.SuspiciousAccountTransfersService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -59,13 +60,13 @@ public class ControllerAccountTransfers {
     @Operation(summary = "Delete account transfer by ID")
     @ApiResponse(responseCode = "200", description = "Account transfer deleted successfully")
     @ApiResponse(responseCode = "404", description = "Account transfer not found")
-    public ResponseEntity<Void> deleteSAT(@PathVariable Long id) {
+    public ResponseEntity<String> deleteSAT(@PathVariable Long id) {
 
         log.info("Deleting account transfer with ID: {}", id);
 
         sats.deleteAccount(id);
 
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseEntity.status(HttpStatus.OK).body("Объект удалён");
     }
 
     @PostMapping()
@@ -76,9 +77,13 @@ public class ControllerAccountTransfers {
 
         log.info("Saving new account transfer: {}", transfersDTO);
 
-        sats.saveAccount(transfersDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("Объект сохранен");
+        try {
+            sats.saveAccount(transfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект сохранен");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
 
     @PutMapping()
@@ -89,8 +94,12 @@ public class ControllerAccountTransfers {
 
         log.info("Updating account transfer with ID: {}, Data: {}", transfersDTO.getId(), transfersDTO);
 
-        sats.updateAccount(transfersDTO);
-
-        return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        try {
+            sats.updateAccount(transfersDTO);
+            return ResponseEntity.status(HttpStatus.OK).body("Объект обновлён");
+        } catch (ValidationException e) {
+            log.error("Validation error: {}", e.getMessage());
+            return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
+        }
     }
 }

@@ -8,6 +8,7 @@ import com.bank.antifraud.model.SuspiciousCardTransfers;
 import com.bank.antifraud.repository.SuspiciousCardTransfersRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,40 +39,44 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
 
     @Override
     @Transactional
-    public void saveCard(CardTransfersDTO newCardTransfers) {
+    public HttpStatus saveCard(CardTransfersDTO newCardTransfers) {
 
         log.info("Getting card transfer by id: {}", newCardTransfers);
 
         if (newCardTransfers.getCard_transfer_id() == null) {
-            throw new ValidationException("Card transfer ID must not be null.", "CardTransferServiceImpl.saveCard");
-        }
+            throw new ValidationException("Card transfer ID must not be null.", "CardTransferServiceImpl.saveCard",
+                    HttpStatus.BAD_REQUEST);
 
+        }
         if (newCardTransfers.getSuspiciousReason().trim().length() < 3) {
             throw new ValidationException("Suspicious reason must not be null and must contain at least 3 characters",
-                    "cardTransferServiceImpl.saveCard");
-        }
+                    "cardTransferServiceImpl.saveCard", HttpStatus.BAD_REQUEST);
+        } else {
 
-        SuspiciousCardTransfers cardTransfers = cardTransferMapper.toEntity(newCardTransfers);
-        SuspiciousCardTransfers cardSave = sctRepository.save(cardTransfers);
-        cardTransferMapper.toDTO(cardSave);
+            SuspiciousCardTransfers cardTransfers = cardTransferMapper.toEntity(newCardTransfers);
+            SuspiciousCardTransfers cardSave = sctRepository.save(cardTransfers);
+            cardTransferMapper.toDTO(cardSave);
+            return HttpStatus.OK;
+        }
     }
 
     @Override
     @Transactional
-    public void updateCard(CardTransfersDTO updateTrDTO) {
+    public HttpStatus updateCard(CardTransfersDTO updateTrDTO) {
         log.info("Updating card transfer: {}", updateTrDTO);
 
         if (updateTrDTO.getCard_transfer_id() == null) {
             throw new ValidationException(
                     "Card transfer ID must not be null.",
-                    "CardTransferServiceImpl.updateCard"
+                    "CardTransferServiceImpl.updateCard",
+                    HttpStatus.BAD_REQUEST
             );
         }
         if (updateTrDTO.getSuspiciousReason().trim().length() < 3) {
             throw new ValidationException(
                     "Suspicious reason must not be null and must contain at least 3 characters",
-                    "CardTransferServiceImpl.updateCard");
-
+                    "CardTransferServiceImpl.updateCard",
+                    HttpStatus.BAD_REQUEST);
         }
         SuspiciousCardTransfers cardTransfers = sctRepository.findById(updateTrDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -82,19 +87,18 @@ public class SuspiciousCardTransfersServiceImp implements SuspiciousCardTransfer
         cardTransferMapper.updateEntityFromDTO(updateTrDTO, cardTransfers);
         SuspiciousCardTransfers updatedCard = sctRepository.save(cardTransfers);
         cardTransferMapper.toDTO(updatedCard);
+        return HttpStatus.OK;
     }
 
     @Override
     public void delete(Long id) {
 
         log.info("Deleting card transfer: {}", id);
-        try {
-            sctRepository.deleteById(id);
-        } catch (EntityNotFoundException ex) {
-            throw new EntityNotFoundException(
-                    "An object with this ID was not found for deletion, ID: " + id,
+        if (!sctRepository.existsById(id)) {
+            throw new EntityNotFoundException("An object with this ID was not found for deletion, ID: " + id,
                     "cardTransferServiceImpl.deleteCardTransfer");
         }
+        sctRepository.deleteById(id);
     }
 
     @Override
